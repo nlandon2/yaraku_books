@@ -1,21 +1,20 @@
 import React, { Component } from "react";
+import CreateTable from "./CreateTable";
 
 export default class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: "",
+            author: "",
+            books: []
+        };
+        this.handleChange = this.handleChange.bind(this);
+    }
+    handleChange(e) {
+        this.setState({ [e.target.name]: e.target.value });
+    }
     render() {
-        return (
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-md-8">
-                        <div className="card">
-                            <div className="card-header">Example Component</div>
-
-                            <div className="card-body">
-                                I'm an example component!
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
+        return <CreateTable handleChange={this.handleChange} />;
     }
 }
