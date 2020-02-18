@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\Author;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -37,15 +38,16 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Book $book)
     {
         $this->validate($request, [
-			'title' => 'required|max:255',
-		]);
-		$book = $request->books()->create([
-			'title' => $request->title,
-		]);
-		return response()->json($book->find($book->id));
+            'title' => 'required|max:255',
+            'name' => 'required|max:255'
+        ]);
+        
+        $author = Author::firstOrCreate(['name' => $request->name]);
+        $author->books()->create(['title' => $request->title]);
+        
     }
 
     /**

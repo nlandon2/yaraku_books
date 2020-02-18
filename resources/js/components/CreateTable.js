@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 export default class CreateTable extends Component {
     render() {
         return (
-            <Form>
+            <Form onSubmit={this.props.handleSubmit}>
                 <Form.Group controlId="title">
                     <Form.Label>Title</Form.Label>
                     <Form.Control
@@ -20,9 +20,9 @@ export default class CreateTable extends Component {
                 <Form.Group controlId="author">
                     <Form.Label>Author</Form.Label>
                     <Form.Control
-                        type="author"
-                        name="author"
-                        value={this.props.author}
+                        type="name"
+                        name="name"
+                        value={this.props.name}
                         placeholder="Enter author"
                         onChange={this.props.handleChange}
                         required

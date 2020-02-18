@@ -38,13 +38,7 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-			'name' => 'required|max:255',
-		]);
-		$authors = $request->authors()->create([
-			'name' => $request->name,
-		]);
-		return response()->json($author->find($author->id));
+    
     }
     /**
      * Display the specified resource.
