@@ -12,9 +12,12 @@ class AuthorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, Author $author)
     {
-        //
+        $authors = $author->orderBy('created_at', 'desc')->get();
+		return response()->json([
+			'authors' => $authors,
+		]);
     }
 
     /**
@@ -35,13 +38,18 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+			'name' => 'required|max:255',
+		]);
+		$authors = $request->authors()->create([
+			'name' => $request->name,
+		]);
+		return response()->json($author->find($author->id));
     }
-
     /**
      * Display the specified resource.
      *
-     * @param  \App\Author  $tAuthor
+     * @param  \App\Author  $author
      * @return \Illuminate\Http\Response
      */
     public function show(Author $author)
@@ -52,7 +60,7 @@ class AuthorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Author  $Author
+     * @param  \App\Author  $author
      * @return \Illuminate\Http\Response
      */
     public function edit(Author $author)

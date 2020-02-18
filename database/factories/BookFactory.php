@@ -9,6 +9,5 @@ $factory->define(Book::class, function (Faker $faker) {
     return [
         'title' => $faker->company,
         'author_id' => rand(1,20),
-        'user_id' => factory('App\User')->create()->id,
     ];
 });

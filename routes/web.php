@@ -12,9 +12,14 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('books');
+});
+
+Route::get('/home', function () {
+    return view('books');
 });
 
 Auth::routes();
 
-Route::get('/books', 'HomeController@index')->name('books');
+Route::get('/books', 'BookController@index')->name('books');
+Route::get('/authors', 'AuthorController@index')->name('authors');

@@ -12,9 +12,13 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, Book $book)
     {
-        //
+		$books = $book->orderBy('created_at', 'desc')->get();
+		// return json response
+		return response()->json([
+			'books' => $books,
+		]);
     }
 
     /**
@@ -24,7 +28,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -35,7 +39,13 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+			'title' => 'required|max:255',
+		]);
+		$book = $request->books()->create([
+			'title' => $request->title,
+		]);
+		return response()->json($book->find($book->id));
     }
 
     /**
