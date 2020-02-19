@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import CreateTable from "./CreateTable";
-import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
+import BookList from "./BookList";
 
 export default class App extends Component {
     constructor(props) {
@@ -72,29 +71,10 @@ export default class App extends Component {
                     handleSubmit={this.handleSubmit}
                 />
                 <hr />
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Author</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.books.map(book => (
-                            <tr key={book.id}>
-                                <td>{book.title}</td>
-                                <td>
-                                    {
-                                        this.state.authors.filter(
-                                            author =>
-                                                author.id === book.author_id
-                                        )[0].name
-                                    }
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
+                <BookList
+                    authors={this.state.authors}
+                    books={this.state.books}
+                />
             </div>
         );
     }

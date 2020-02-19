@@ -15,7 +15,13 @@ export default class BookList extends Component {
                     {this.props.books.map(book => (
                         <tr key={book.id}>
                             <td>{book.title}</td>
-                            <td>{book.author}</td>
+                            <td>
+                                {
+                                    this.props.authors.filter(
+                                        author => author.id === book.author_id
+                                    )[0].name
+                                }
+                            </td>
                         </tr>
                     ))}
                 </tbody>
