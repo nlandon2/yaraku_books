@@ -46,9 +46,12 @@ class AuthorController extends Controller
      * @param  \App\Author  $author
      * @return \Illuminate\Http\Response
      */
-    public function show(Author $author)
+    public function show($id)
     {
-        //
+        $author = Author::findOrFail($id);
+		return response()->json([
+			'author' => $author,
+		]);
     }
 
     /**
@@ -69,9 +72,12 @@ class AuthorController extends Controller
      * @param  \App\Author  $author
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Author $author)
+    public function update(Request $request, $id)
     {
-        //
+        $input = $request->all();
+		$author = Author::findOrFail($id);
+		$author->update($input);
+		return response()->json($author->find($book->id));
     }
 
     /**

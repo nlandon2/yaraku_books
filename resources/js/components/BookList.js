@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
 export default class BookList extends Component {
     render() {
@@ -10,7 +11,8 @@ export default class BookList extends Component {
                     <tr>
                         <th>Title</th>
                         <th>Author</th>
-                        <th>Delete</th>
+                        <th>Edit Author's Name</th>
+                        <th>Delete Book</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,6 +25,14 @@ export default class BookList extends Component {
                                         author => author.id === book.author_id
                                     )[0].name
                                 }
+                            </td>
+                            <td>
+                                <Link
+                                    className="btn btn-sm btn-success"
+                                    to={`authors/${book.author_id}/edit`}
+                                >
+                                    Edit
+                                </Link>
                             </td>
                             <td>
                                 <Button

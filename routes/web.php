@@ -24,5 +24,9 @@ Auth::routes();
 Route::get('/books', 'BookController@index');
 Route::get('/authors', 'AuthorController@index');
 
+Route::get('/authors/{id}','AuthorController@show');
+Route::get('/books/{id}','BookController@show');
+
 
 Route::resource('books', 'BookController');
+Route::put('/authors/{id}','AuthorController@update');
