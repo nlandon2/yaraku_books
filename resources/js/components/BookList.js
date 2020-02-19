@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Table from "react-bootstrap/Table";
+import Button from "react-bootstrap/Button";
 
 export default class BookList extends Component {
     render() {
@@ -9,6 +10,7 @@ export default class BookList extends Component {
                     <tr>
                         <th>Title</th>
                         <th>Author</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,6 +23,16 @@ export default class BookList extends Component {
                                         author => author.id === book.author_id
                                     )[0].name
                                 }
+                            </td>
+                            <td>
+                                <Button
+                                    variant="danger"
+                                    onClick={() =>
+                                        this.props.handleDelete(book.id)
+                                    }
+                                >
+                                    Delete Book
+                                </Button>
                             </td>
                         </tr>
                     ))}

@@ -13,6 +13,7 @@ export default class App extends Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
     }
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
@@ -63,6 +64,11 @@ export default class App extends Component {
         this.getAuthors();
         this.getBooks();
     }
+    handleDelete(id) {
+        const updatedBooks = this.state.books.filter(book => book.id !== id);
+        this.setState({ books: updatedBooks });
+        axios.delete(`/books/${id}`);
+    }
     render() {
         return (
             <div>
@@ -74,6 +80,7 @@ export default class App extends Component {
                 <BookList
                     authors={this.state.authors}
                     books={this.state.books}
+                    handleDelete={this.handleDelete}
                 />
             </div>
         );
