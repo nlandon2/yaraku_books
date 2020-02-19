@@ -24,4 +24,5 @@ Auth::routes();
 Route::get('/books', 'BookController@index');
 Route::get('/authors', 'AuthorController@index');
 
+
 Route::resource('books', 'BookController');

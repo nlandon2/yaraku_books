@@ -16,7 +16,6 @@ class BookController extends Controller
     public function index(Request $request, Book $book)
     {
 		$books = $book->orderBy('created_at', 'desc')->get();
-		// return json response
 		return response()->json([
 			'books' => $books,
 		]);
@@ -46,8 +45,11 @@ class BookController extends Controller
         ]);
         
         $author = Author::firstOrCreate(['name' => $request->name]);
-        $author->books()->create(['title' => $request->title]);
-        
+        $book = $author->books()->create(['title' => $request->title]);
+        return response()->json([
+            'authors' => $author,
+			'books' => $book,
+		]);
     }
 
     /**
