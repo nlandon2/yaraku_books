@@ -74623,19 +74623,17 @@ function (_React$Component) {
     value: function getAuthors() {
       var _this3 = this;
 
-      axios.get("/authors").then(function (response) {
-        console.log(response);
-
+      axios.get("/authors/".concat(this.props.match.params.id)).then(function (response) {
         _this3.setState({
-          name: response.data.name
+          name: response.data.author.name
         });
       })["catch"](function (error) {
         console.error(error);
       });
     }
   }, {
-    key: "componentWillMount",
-    value: function componentWillMount() {
+    key: "componentDidMount",
+    value: function componentDidMount() {
       this.getAuthors();
     }
   }, {

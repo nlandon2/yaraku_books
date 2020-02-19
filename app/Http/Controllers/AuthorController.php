@@ -77,7 +77,9 @@ class AuthorController extends Controller
         $input = $request->all();
 		$author = Author::findOrFail($id);
 		$author->update($input);
-		return response()->json($author->find($book->id));
+		return response()->json([
+			'author' => $author,
+		]);
     }
 
     /**

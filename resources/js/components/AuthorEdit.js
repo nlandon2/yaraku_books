@@ -30,18 +30,17 @@ export default class AuthorEdit extends React.Component {
     }
     getAuthors() {
         axios
-            .get(`/authors`)
+            .get(`/authors/${this.props.match.params.id}`)
             .then(response => {
-                console.log(response);
                 this.setState({
-                    name: response.data.name
+                    name: response.data.author.name
                 });
             })
             .catch(error => {
                 console.error(error);
             });
     }
-    componentWillMount() {
+    componentDidMount() {
         this.getAuthors();
     }
     render() {
