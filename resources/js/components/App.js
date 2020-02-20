@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import BookCreate from "./BookCreate";
 import BookList from "./BookList";
+import BookSearch from "./BookSearch";
 
 export default class App extends Component {
     constructor(props) {
@@ -8,12 +9,14 @@ export default class App extends Component {
         this.state = {
             title: "",
             name: "",
+            search: "",
             books: [],
             authors: []
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
         this.getBooks = this.getBooks.bind(this);
         this.getAuthors = this.getAuthors.bind(this);
     }
@@ -37,6 +40,41 @@ export default class App extends Component {
                     name: ""
                 });
                 window.location.reload(false);
+            });
+    }
+    handleSearch(e) {
+        e.preventDefault();
+        axios
+            .get(`/books`)
+            .then(response => {
+                console.log(response);
+                this.setState({
+                    books: [...response.data.books]
+                });
+            })
+            .then(() => {
+                let authorids = [];
+                const searchedAuthor = this.state.authors.filter(
+                    author => author.name.indexOf(this.state.search) > -1
+                );
+
+                if (searchedAuthor.length > 0) {
+                    authorids = searchedAuthor.map(x => x.id);
+                }
+                const searchedBook = this.state.books.filter(
+                    book =>
+                        book.title.indexOf(this.state.search) > -1 ||
+                        authorids.includes(book.author_id)
+                );
+                this.setState({
+                    books: searchedBook
+                });
+                this.setState({
+                    search: ""
+                });
+            })
+            .catch(error => {
+                console.log(error);
             });
     }
     getBooks(order) {
@@ -104,6 +142,11 @@ export default class App extends Component {
                 <BookCreate
                     handleChange={this.handleChange}
                     handleSubmit={this.handleSubmit}
+                />
+                <hr />
+                <BookSearch
+                    handleChange={this.handleChange}
+                    handleSearch={this.handleSearch}
                 />
                 <hr />
                 <BookList

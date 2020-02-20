@@ -84248,6 +84248,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _BookCreate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BookCreate */ "./resources/js/components/BookCreate.js");
 /* harmony import */ var _BookList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BookList */ "./resources/js/components/BookList.js");
+/* harmony import */ var _BookSearch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./BookSearch */ "./resources/js/components/BookSearch.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
@@ -84280,6 +84281,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var App =
 /*#__PURE__*/
 function (_Component) {
@@ -84294,12 +84296,14 @@ function (_Component) {
     _this.state = {
       title: "",
       name: "",
+      search: "",
       books: [],
       authors: []
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleDelete = _this.handleDelete.bind(_assertThisInitialized(_this));
+    _this.handleSearch = _this.handleSearch.bind(_assertThisInitialized(_this));
     _this.getBooks = _this.getBooks.bind(_assertThisInitialized(_this));
     _this.getAuthors = _this.getAuthors.bind(_assertThisInitialized(_this));
     return _this;
@@ -84334,14 +84338,54 @@ function (_Component) {
       });
     }
   }, {
+    key: "handleSearch",
+    value: function handleSearch(e) {
+      var _this3 = this;
+
+      e.preventDefault();
+      axios.get("/books").then(function (response) {
+        console.log(response);
+
+        _this3.setState({
+          books: _toConsumableArray(response.data.books)
+        });
+      }).then(function () {
+        var authorids = [];
+
+        var searchedAuthor = _this3.state.authors.filter(function (author) {
+          return author.name.indexOf(_this3.state.search) > -1;
+        });
+
+        if (searchedAuthor.length > 0) {
+          authorids = searchedAuthor.map(function (x) {
+            return x.id;
+          });
+        }
+
+        var searchedBook = _this3.state.books.filter(function (book) {
+          return book.title.indexOf(_this3.state.search) > -1 || authorids.includes(book.author_id);
+        });
+
+        _this3.setState({
+          books: searchedBook
+        });
+
+        _this3.setState({
+          search: ""
+        });
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }, {
     key: "getBooks",
     value: function getBooks(order) {
-      var _this3 = this;
+      var _this4 = this;
 
       order === "" ? axios.get("/books").then(function (response) {
         console.log(response);
 
-        _this3.setState({
+        _this4.setState({
           books: _toConsumableArray(response.data.books)
         });
       })["catch"](function (error) {
@@ -84349,7 +84393,7 @@ function (_Component) {
       }) : axios.get("/books/".concat(order)).then(function (response) {
         console.log(response);
 
-        _this3.setState({
+        _this4.setState({
           books: _toConsumableArray(response.data.books)
         });
       })["catch"](function (error) {
@@ -84359,12 +84403,12 @@ function (_Component) {
   }, {
     key: "getAuthors",
     value: function getAuthors(order) {
-      var _this4 = this;
+      var _this5 = this;
 
       order === "" ? axios.get("/authors").then(function (response) {
         console.log(response);
 
-        _this4.setState({
+        _this5.setState({
           authors: _toConsumableArray(response.data.authors)
         });
       })["catch"](function (error) {
@@ -84372,7 +84416,7 @@ function (_Component) {
       }) : axios.get("/authors/".concat(order)).then(function (response) {
         console.log(response);
 
-        _this4.setState({
+        _this5.setState({
           books: _toConsumableArray(response.data.books)
         });
       })["catch"](function (error) {
@@ -84402,6 +84446,9 @@ function (_Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_BookCreate__WEBPACK_IMPORTED_MODULE_1__["default"], {
         handleChange: this.handleChange,
         handleSubmit: this.handleSubmit
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_BookSearch__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        handleChange: this.handleChange,
+        handleSearch: this.handleSearch
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_BookList__WEBPACK_IMPORTED_MODULE_2__["default"], {
         authors: this.state.authors,
         books: this.state.books,
@@ -84769,6 +84816,83 @@ function (_Component) {
   }]);
 
   return BookList;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/BookSearch.js":
+/*!***********************************************!*\
+  !*** ./resources/js/components/BookSearch.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return BookSearch; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-bootstrap/Form */ "./node_modules/react-bootstrap/esm/Form.js");
+/* harmony import */ var react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap/Button */ "./node_modules/react-bootstrap/esm/Button.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+var BookSearch =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(BookSearch, _Component);
+
+  function BookSearch() {
+    _classCallCheck(this, BookSearch);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(BookSearch).apply(this, arguments));
+  }
+
+  _createClass(BookSearch, [{
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        inline: true,
+        onSubmit: this.props.handleSearch
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Group, {
+        controlId: "search"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Control, {
+        type: "search",
+        name: "search",
+        value: this.props.search,
+        onChange: this.props.handleChange,
+        placeholder: "Search Book",
+        className: "mr-sm-2",
+        required: true
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        variant: "outline-success",
+        type: "submit"
+      }, "Search"));
+    }
+  }]);
+
+  return BookSearch;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 
