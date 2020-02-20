@@ -84964,6 +84964,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_bootstrap_Row__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap/Row */ "./node_modules/react-bootstrap/esm/Row.js");
 /* harmony import */ var react_bootstrap_Col__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap/Col */ "./node_modules/react-bootstrap/esm/Col.js");
 /* harmony import */ var react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-bootstrap/Button */ "./node_modules/react-bootstrap/esm/Button.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -84974,13 +84975,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -84993,13 +84995,29 @@ var ExportForm =
 function (_React$Component) {
   _inherits(ExportForm, _React$Component);
 
-  function ExportForm() {
+  function ExportForm(props) {
+    var _this;
+
     _classCallCheck(this, ExportForm);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ExportForm).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ExportForm).call(this, props));
+    _this.state = {
+      choice: "",
+      file: ""
+    };
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(ExportForm, [{
+    key: "handleChange",
+    value: function handleChange(e) {
+      this.setState({
+        choice: e.target.value,
+        file: "/export/".concat(e.target.value, ".csv")
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("div", null, react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("fieldset", null, react__WEBPACK_IMPORTED_MODULE_0__["createElement"](react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Group, {
@@ -85012,20 +85030,24 @@ function (_React$Component) {
         sm: 10
       }, react__WEBPACK_IMPORTED_MODULE_0__["createElement"](react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Check, {
         type: "radio",
-        label: "Both titles and authors",
+        value: "books",
+        label: "Titles",
         name: "formHorizontalRadios",
-        id: "formHorizontalRadios1"
+        id: "formHorizontalRadios2",
+        onChange: this.handleChange
       }), react__WEBPACK_IMPORTED_MODULE_0__["createElement"](react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Check, {
         type: "radio",
-        label: "Titles only",
+        value: "authors",
+        label: "Authors",
         name: "formHorizontalRadios",
-        id: "formHorizontalRadios2"
-      }), react__WEBPACK_IMPORTED_MODULE_0__["createElement"](react_bootstrap_Form__WEBPACK_IMPORTED_MODULE_1__["default"].Check, {
-        type: "radio",
-        label: "Authors only",
-        name: "formHorizontalRadios",
-        id: "formHorizontalRadios3"
-      })))), react__WEBPACK_IMPORTED_MODULE_0__["createElement"](react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_4__["default"], null, "Export as CSV"), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"](react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_4__["default"], null, "Export as XML"));
+        id: "formHorizontalRadios3",
+        onChange: this.handleChange
+      })))), react__WEBPACK_IMPORTED_MODULE_0__["createElement"](react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+        className: "btn btn-primary",
+        to: this.state.file,
+        target: "_blank",
+        download: true
+      }, "Export as CSV"), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"](react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_4__["default"], null, "Export as XML"));
     }
   }]);
 

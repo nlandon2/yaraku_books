@@ -3,8 +3,23 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
 export default class ExportForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            choice: "",
+            file: ""
+        };
+        this.handleChange = this.handleChange.bind(this);
+    }
+    handleChange(e) {
+        this.setState({
+            choice: e.target.value,
+            file: `/export/${e.target.value}.csv`
+        });
+    }
     render() {
         return (
             <div>
@@ -16,26 +31,32 @@ export default class ExportForm extends React.Component {
                         <Col sm={10}>
                             <Form.Check
                                 type="radio"
-                                label="Both titles and authors"
-                                name="formHorizontalRadios"
-                                id="formHorizontalRadios1"
-                            />
-                            <Form.Check
-                                type="radio"
-                                label="Titles only"
+                                value="books"
+                                label="Titles"
                                 name="formHorizontalRadios"
                                 id="formHorizontalRadios2"
+                                onChange={this.handleChange}
                             />
                             <Form.Check
                                 type="radio"
-                                label="Authors only"
+                                value="authors"
+                                label="Authors"
                                 name="formHorizontalRadios"
                                 id="formHorizontalRadios3"
+                                onChange={this.handleChange}
                             />
                         </Col>
                     </Form.Group>
                 </fieldset>
-                <Button>Export as CSV</Button> <Button>Export as XML</Button>
+                <Link
+                    className="btn btn-primary"
+                    to={this.state.file}
+                    target="_blank"
+                    download
+                >
+                    Export as CSV
+                </Link>{" "}
+                <Button>Export as XML</Button>
             </div>
         );
     }

@@ -10,6 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\Book;
+use App\Author;
 
 Route::get('/', function () {
     return view('books');
@@ -32,6 +34,10 @@ Route::get('/authors/descend', 'AuthorController@descendIndex');
 
 Route::get('/authors/{id}','AuthorController@show');
 Route::get('/books/{id}','BookController@show');
+
+Route::get('/export/books.csv', "ExportController@exportBooksCSV");
+Route::get('/export/authors.csv', 'ExportController@exportAuthorsCSV');
+
 
 
 Route::resource('books', 'BookController');
