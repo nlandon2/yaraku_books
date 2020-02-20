@@ -21,6 +21,22 @@ class BookController extends Controller
 		]);
     }
 
+    public function ascendIndex(Request $request, Book $book)
+    {
+		$books = $book->orderBy('title', 'asc')->get();
+		return response()->json([
+			'books' => $books,
+		]);
+    }
+
+    public function descendIndex(Request $request, Book $book)
+    {
+		$books = $book->orderBy('title', 'desc')->get();
+		return response()->json([
+			'books' => $books,
+		]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

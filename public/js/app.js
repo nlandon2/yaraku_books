@@ -84300,6 +84300,8 @@ function (_Component) {
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleDelete = _this.handleDelete.bind(_assertThisInitialized(_this));
+    _this.getBooks = _this.getBooks.bind(_assertThisInitialized(_this));
+    _this.getAuthors = _this.getAuthors.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -84333,10 +84335,20 @@ function (_Component) {
     }
   }, {
     key: "getBooks",
-    value: function getBooks() {
+    value: function getBooks(order) {
       var _this3 = this;
 
-      axios.get("/books").then(function (response) {
+      order === "" ? axios.get("/books").then(function (response) {
+        console.log(response);
+
+        _this3.setState({
+          books: _toConsumableArray(response.data.books)
+        });
+      })["catch"](function (error) {
+        console.log(error);
+      }) : axios.get("/books/".concat(order)).then(function (response) {
+        console.log(response);
+
         _this3.setState({
           books: _toConsumableArray(response.data.books)
         });
@@ -84346,12 +84358,22 @@ function (_Component) {
     }
   }, {
     key: "getAuthors",
-    value: function getAuthors() {
+    value: function getAuthors(order) {
       var _this4 = this;
 
-      axios.get("/authors").then(function (response) {
+      order === "" ? axios.get("/authors").then(function (response) {
+        console.log(response);
+
         _this4.setState({
           authors: _toConsumableArray(response.data.authors)
+        });
+      })["catch"](function (error) {
+        console.log(error);
+      }) : axios.get("/authors/".concat(order)).then(function (response) {
+        console.log(response);
+
+        _this4.setState({
+          books: _toConsumableArray(response.data.books)
         });
       })["catch"](function (error) {
         console.log(error);
@@ -84360,8 +84382,8 @@ function (_Component) {
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.getAuthors();
-      this.getBooks();
+      this.getAuthors("");
+      this.getBooks("");
     }
   }, {
     key: "handleDelete",
@@ -84383,7 +84405,9 @@ function (_Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_BookList__WEBPACK_IMPORTED_MODULE_2__["default"], {
         authors: this.state.authors,
         books: this.state.books,
-        handleDelete: this.handleDelete
+        handleDelete: this.handleDelete,
+        getAuthors: this.getAuthors,
+        getBooks: this.getBooks
       }));
     }
   }]);
@@ -84463,7 +84487,7 @@ function (_React$Component) {
       var _this2 = this;
 
       e.preventDefault();
-      axios.put("/authors/".concat(this.props.match.params.id), {
+      axios.put("/authors/".concat(this.props.match.params.id, "/"), {
         name: this.state.name
       }).then(function (response) {
         console.log(response);
@@ -84478,7 +84502,7 @@ function (_React$Component) {
     value: function getAuthors() {
       var _this3 = this;
 
-      axios.get("/authors/".concat(this.props.match.params.id)).then(function (response) {
+      axios.get("/authors/".concat(this.props.match.params.id, "/")).then(function (response) {
         _this3.setState({
           name: response.data.author.name
         });
@@ -84668,22 +84692,46 @@ function (_Component) {
   _createClass(BookList, [{
     key: "toggleAuthorSort",
     value: function toggleAuthorSort() {
-      var nextSort;
-      if (this.state.currentAuthorSort === _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSort"] || this.state.currentAuthorSort === _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSortDown"]) nextSort = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSortUp"];else if (this.state.currentAuthorSort === _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSortUp"]) nextSort = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSortDown"];
+      var nextSort, order;
+
+      if (this.state.currentAuthorSort === _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSortDown"]) {
+        order = "";
+        nextSort = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSort"];
+      } else if (this.state.currentAuthorSort === _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSort"]) {
+        order = "ascend";
+        nextSort = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSortUp"];
+      } else {
+        order = "descend";
+        nextSort = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSortDown"];
+      }
+
       this.setState({
         currentAuthorSort: nextSort,
         currentBookSort: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSort"]
       });
+      this.props.getAuthors(order);
     }
   }, {
     key: "toggleBookSort",
     value: function toggleBookSort() {
-      var nextSort;
-      if (this.state.currentBookSort === _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSortDown"] || this.state.currentBookSort === _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSort"]) nextSort = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSortUp"];else if (this.state.currentBookSort === _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSortUp"]) nextSort = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSortDown"];
+      var nextSort, order;
+
+      if (this.state.currentBookSort === _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSortDown"]) {
+        order = "";
+        nextSort = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSort"];
+      } else if (this.state.currentBookSort === _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSort"]) {
+        order = "ascend";
+        nextSort = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSortUp"];
+      } else {
+        order = "descend";
+        nextSort = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSortDown"];
+      }
+
       this.setState({
         currentAuthorSort: _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__["faSort"],
         currentBookSort: nextSort
       });
+      this.props.getBooks(order);
     }
   }, {
     key: "render",
@@ -84705,7 +84753,7 @@ function (_Component) {
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Edit Author's Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "Delete Book"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, this.props.books.map(function (book) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
           key: book.id
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, book.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, _this2.props.authors.filter(function (author) {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, book.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, book.name ? book.name : _this2.props.authors.filter(function (author) {
           return author.id === book.author_id;
         })[0].name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
           className: "btn btn-sm btn-success",

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Author;
+use App\Book;
 use Illuminate\Http\Request;
 
 class AuthorController extends Controller
@@ -17,6 +18,26 @@ class AuthorController extends Controller
         $authors = $author->orderBy('created_at', 'desc')->get();
 		return response()->json([
 			'authors' => $authors,
+		]);
+    }
+
+    public function ascendIndex(Request $request, Author $author)
+    {
+        $books = $author
+        ->join('books', 'books.author_id', '=', 'authors.id')->orderBy('name', 'asc')->get();
+        
+		return response()->json([
+            'books' => $books,
+		]);
+    }
+
+    public function descendIndex(Request $request, Author $author)
+    {
+        $books = $author
+        ->join('books', 'books.author_id', '=', 'authors.id')->orderBy('name', 'desc')->get();
+        
+		return response()->json([
+            'books' => $books,
 		]);
     }
 

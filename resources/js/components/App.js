@@ -14,6 +14,8 @@ export default class App extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.getBooks = this.getBooks.bind(this);
+        this.getAuthors = this.getAuthors.bind(this);
     }
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
@@ -37,33 +39,59 @@ export default class App extends Component {
                 window.location.reload(false);
             });
     }
-    getBooks() {
-        axios
-            .get("/books")
-            .then(response => {
-                this.setState({
-                    books: [...response.data.books]
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            });
+    getBooks(order) {
+        order === ""
+            ? axios
+                  .get(`/books`)
+                  .then(response => {
+                      console.log(response);
+                      this.setState({
+                          books: [...response.data.books]
+                      });
+                  })
+                  .catch(error => {
+                      console.log(error);
+                  })
+            : axios
+                  .get(`/books/${order}`)
+                  .then(response => {
+                      console.log(response);
+                      this.setState({
+                          books: [...response.data.books]
+                      });
+                  })
+                  .catch(error => {
+                      console.log(error);
+                  });
     }
-    getAuthors() {
-        axios
-            .get("/authors")
-            .then(response => {
-                this.setState({
-                    authors: [...response.data.authors]
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            });
+    getAuthors(order) {
+        order === ""
+            ? axios
+                  .get(`/authors`)
+                  .then(response => {
+                      console.log(response);
+                      this.setState({
+                          authors: [...response.data.authors]
+                      });
+                  })
+                  .catch(error => {
+                      console.log(error);
+                  })
+            : axios
+                  .get(`/authors/${order}`)
+                  .then(response => {
+                      console.log(response);
+                      this.setState({
+                          books: [...response.data.books]
+                      });
+                  })
+                  .catch(error => {
+                      console.log(error);
+                  });
     }
     componentDidMount() {
-        this.getAuthors();
-        this.getBooks();
+        this.getAuthors("");
+        this.getBooks("");
     }
     handleDelete(id) {
         const updatedBooks = this.state.books.filter(book => book.id !== id);
@@ -82,6 +110,8 @@ export default class App extends Component {
                     authors={this.state.authors}
                     books={this.state.books}
                     handleDelete={this.handleDelete}
+                    getAuthors={this.getAuthors}
+                    getBooks={this.getBooks}
                 />
             </div>
         );

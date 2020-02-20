@@ -21,36 +21,44 @@ export default class BookList extends Component {
     }
 
     toggleAuthorSort() {
-        let nextSort;
+        let nextSort, order;
 
-        if (
-            this.state.currentAuthorSort === faSort ||
-            this.state.currentAuthorSort === faSortDown
-        )
+        if (this.state.currentAuthorSort === faSortDown) {
+            order = "";
+            nextSort = faSort;
+        } else if (this.state.currentAuthorSort === faSort) {
+            order = "ascend";
             nextSort = faSortUp;
-        else if (this.state.currentAuthorSort === faSortUp)
+        } else {
+            order = "descend";
             nextSort = faSortDown;
+        }
 
         this.setState({
             currentAuthorSort: nextSort,
             currentBookSort: faSort
         });
+        this.props.getAuthors(order);
     }
 
     toggleBookSort() {
-        let nextSort;
-
-        if (
-            this.state.currentBookSort === faSortDown ||
-            this.state.currentBookSort === faSort
-        )
+        let nextSort, order;
+        if (this.state.currentBookSort === faSortDown) {
+            order = "";
+            nextSort = faSort;
+        } else if (this.state.currentBookSort === faSort) {
+            order = "ascend";
             nextSort = faSortUp;
-        else if (this.state.currentBookSort === faSortUp) nextSort = faSortDown;
+        } else {
+            order = "descend";
+            nextSort = faSortDown;
+        }
 
         this.setState({
             currentAuthorSort: faSort,
             currentBookSort: nextSort
         });
+        this.props.getBooks(order);
     }
 
     render() {
@@ -79,11 +87,11 @@ export default class BookList extends Component {
                         <tr key={book.id}>
                             <td>{book.title}</td>
                             <td>
-                                {
-                                    this.props.authors.filter(
-                                        author => author.id === book.author_id
-                                    )[0].name
-                                }
+                                {book.name
+                                    ? book.name
+                                    : this.props.authors.filter(
+                                          author => author.id === book.author_id
+                                      )[0].name}
                             </td>
                             <td>
                                 <Link

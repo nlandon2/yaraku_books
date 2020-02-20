@@ -17,7 +17,7 @@ export default class AuthorEdit extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         axios
-            .put(`/authors/${this.props.match.params.id}`, {
+            .put(`/authors/${this.props.match.params.id}/`, {
                 name: this.state.name
             })
             .then(response => {
@@ -30,7 +30,7 @@ export default class AuthorEdit extends React.Component {
     }
     getAuthors() {
         axios
-            .get(`/authors/${this.props.match.params.id}`)
+            .get(`/authors/${this.props.match.params.id}/`)
             .then(response => {
                 this.setState({
                     name: response.data.author.name
