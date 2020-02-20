@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import CreateTable from "./CreateTable";
+import BookCreate from "./BookCreate";
 import BookList from "./BookList";
 
 export default class App extends Component {
@@ -34,6 +34,7 @@ export default class App extends Component {
                     title: "",
                     name: ""
                 });
+                window.location.reload(false);
             });
     }
     getBooks() {
@@ -72,7 +73,7 @@ export default class App extends Component {
     render() {
         return (
             <div>
-                <CreateTable
+                <BookCreate
                     handleChange={this.handleChange}
                     handleSubmit={this.handleSubmit}
                 />
