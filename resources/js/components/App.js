@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import BookCreate from "./BookCreate";
 import BookList from "./BookList";
 import BookSearch from "./BookSearch";
+import { Link } from "react-router-dom";
 
 export default class App extends Component {
     constructor(props) {
@@ -156,6 +157,9 @@ export default class App extends Component {
                     getAuthors={this.getAuthors}
                     getBooks={this.getBooks}
                 />
+                <Link className="btn btn-primary" to={`/export`}>
+                    Export
+                </Link>
             </div>
         );
     }

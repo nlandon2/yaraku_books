@@ -95,7 +95,7 @@ export default class BookList extends Component {
                             </td>
                             <td>
                                 <Link
-                                    className="btn btn-sm btn-success"
+                                    className="btn btn-success"
                                     to={`authors/${book.author_id}/edit`}
                                 >
                                     Edit
