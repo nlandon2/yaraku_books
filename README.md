@@ -19,7 +19,7 @@ Next, set MySQL configuration variables in your `.env` file, and run `php artisa
 Finally, run `php artisan serve` and `npm run watch`, and then the website can be accessed locally.
 
 ## Technologies
-Front-end: Javascript, React, Bootstrap
-Back-end: PHP, Laravel
-Deployment: Heroku
-Database: MySQL
+- Front-end: Javascript, React, Bootstrap
+- Back-end: PHP, Laravel
+- Deployment: Heroku
+- Database: MySQL
