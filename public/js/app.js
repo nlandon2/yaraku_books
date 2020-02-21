@@ -85003,7 +85003,8 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ExportForm).call(this, props));
     _this.state = {
       choice: "",
-      file: ""
+      csvFile: "",
+      xmlFile: ""
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     return _this;
@@ -85014,7 +85015,8 @@ function (_React$Component) {
     value: function handleChange(e) {
       this.setState({
         choice: e.target.value,
-        file: "/export/".concat(e.target.value, ".csv")
+        csvFile: "/export/".concat(e.target.value, ".csv"),
+        xmlFile: "/export/".concat(e.target.value, ".xml")
       });
     }
   }, {
@@ -85044,10 +85046,15 @@ function (_React$Component) {
         onChange: this.handleChange
       })))), react__WEBPACK_IMPORTED_MODULE_0__["createElement"](react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
         className: "btn btn-primary",
-        to: this.state.file,
+        to: this.state.csvFile,
         target: "_blank",
         download: true
-      }, "Export as CSV"), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"](react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_4__["default"], null, "Export as XML"));
+      }, "Export as CSV"), " ", react__WEBPACK_IMPORTED_MODULE_0__["createElement"](react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+        className: "btn btn-primary",
+        to: this.state.xmlFile,
+        target: "_blank",
+        download: true
+      }, "Export as XML"));
     }
   }]);
 

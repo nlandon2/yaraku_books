@@ -38,7 +38,8 @@ Route::get('/books/{id}','BookController@show');
 Route::get('/export/books.csv', "ExportController@exportBooksCSV");
 Route::get('/export/authors.csv', 'ExportController@exportAuthorsCSV');
 
-
+Route::get('/export/books.xml', "ExportController@exportBooksXML");
+Route::get('/export/authors.xml', 'ExportController@exportAuthorsXML');
 
 Route::resource('books', 'BookController');
 Route::put('/authors/{id}','AuthorController@update');

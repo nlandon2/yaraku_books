@@ -10,14 +10,16 @@ export default class ExportForm extends React.Component {
         super(props);
         this.state = {
             choice: "",
-            file: ""
+            csvFile: "",
+            xmlFile: ""
         };
         this.handleChange = this.handleChange.bind(this);
     }
     handleChange(e) {
         this.setState({
             choice: e.target.value,
-            file: `/export/${e.target.value}.csv`
+            csvFile: `/export/${e.target.value}.csv`,
+            xmlFile: `/export/${e.target.value}.xml`
         });
     }
     render() {
@@ -50,13 +52,20 @@ export default class ExportForm extends React.Component {
                 </fieldset>
                 <Link
                     className="btn btn-primary"
-                    to={this.state.file}
+                    to={this.state.csvFile}
                     target="_blank"
                     download
                 >
                     Export as CSV
                 </Link>{" "}
-                <Button>Export as XML</Button>
+                <Link
+                    className="btn btn-primary"
+                    to={this.state.xmlFile}
+                    target="_blank"
+                    download
+                >
+                    Export as XML
+                </Link>
             </div>
         );
     }

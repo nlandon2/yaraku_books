@@ -57,5 +57,54 @@ class ExportController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+
+    public function exportAuthorsXML(){
+        $headers = [
+            'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0'
+        ,   'Content-type'        => 'text/xml'
+        ,   'Content-Disposition' => 'attachment; filename=authors.xml'
+        ,   'Expires'             => '0'
+        ,   'Pragma'              => 'public'
+        ];
+
+        $list = Author::all()->toArray();
+
+        array_unshift($list, array_keys($list[0]));
+
+        $callback = function() use ($list) 
+        {
+            $FH = fopen('php://output', 'w');
+            foreach ($list as $row) { 
+                fputcsv($FH, $row);
+            }
+            fclose($FH);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+    public function exportBooksXML(){
+        $headers = [
+            'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0'
+        ,   'Content-type'        => 'text/xml'
+        ,   'Content-Disposition' => 'attachment; filename=books.xml'
+        ,   'Expires'             => '0'
+        ,   'Pragma'              => 'public'
+        ];
+
+        $list = Book::all()->toArray();
+
+        array_unshift($list, array_keys($list[0]));
+
+        $callback = function() use ($list) 
+        {
+            $FH = fopen('php://output', 'w');
+            foreach ($list as $row) { 
+                fputcsv($FH, $row);
+            }
+            fclose($FH);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
     
 }
